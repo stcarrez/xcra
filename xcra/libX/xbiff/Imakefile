@@ -1,0 +1,33 @@
+XCOMM
+XCOMM Copyright (C) 1994, 1995, 1996 Stephane Carrez
+XCOMM
+XCOMM This file is part of Xcra.
+XCOMM
+XCOMM Xcra is free software; you can redistribute it and/or modify
+XCOMM it under the terms of the GNU General Public License as published by
+XCOMM the Free Software Foundation; either version 2 of the License, or
+XCOMM (at your option) any later version.
+XCOMM
+XCOMM Xcra is distributed in the hope that it will be useful,
+XCOMM but WITHOUT ANY WARRANTY; without even the implied warranty of
+XCOMM MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+XCOMM GNU General Public License for more details.
+XCOMM
+XCOMM You should have received a copy of the GNU General Public License
+XCOMM along with this program; if not, write to the Free Software
+XCOMM Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+XCOMM
+/* # $Id: Imakefile,v 1.6 2000/02/23 08:20:30 ciceron Exp $ */
+#include "../../config.mk"
+
+           SRCS = Mailbox.c
+        HEADERS = Mailbox.h MailboxP.h
+           OBJS = Mailbox.o
+
+     CCOPTIONS  = SpecificOptions X11Version
+    CDEBUGFLAGS = DebugOptions WarnOptions OptimizeOptions
+    DEPENDFLAGS = $(CCOPTIONS) DependOptions
+
+all::	$(OBJS)
+
+DependTarget()

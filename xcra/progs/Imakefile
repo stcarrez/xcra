@@ -1,0 +1,132 @@
+XCOMM
+XCOMM Copyright (C) 1994, 1995, 1996 Stephane Carrez
+XCOMM
+XCOMM This file is part of Xcra.
+XCOMM
+XCOMM Xcra is free software; you can redistribute it and/or modify
+XCOMM it under the terms of the GNU General Public License as published by
+XCOMM the Free Software Foundation; either version 2 of the License, or
+XCOMM (at your option) any later version.
+XCOMM
+XCOMM Xcra is distributed in the hope that it will be useful,
+XCOMM but WITHOUT ANY WARRANTY; without even the implied warranty of
+XCOMM MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+XCOMM GNU General Public License for more details.
+XCOMM
+XCOMM You should have received a copy of the GNU General Public License
+XCOMM along with this program; if not, write to the Free Software
+XCOMM Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+XCOMM
+XCOMM $Id: Imakefile,v 1.13 1996/08/04 15:37:57 gdraw Exp $
+#include "../config.mk"
+
+#ifdef HAVE_PROFILE
+#  define ProfileObjs	gmon.o
+#else
+#  define ProfileObjs
+#endif
+
+#ifdef HAVE_PERL
+#  define PerlTools	cra-report
+#else
+#  define PerlTools
+#endif
+
+#             CC = $(CXX)
+     CCOPTIONS  = IncludeSearchPaths SpecificOptions X11Version
+    CDEBUGFLAGS = DebugOptions WarnOptions OptimizeOptions ProfileOption
+    DEPENDFLAGS = $(CCOPTIONS) DependOptions
+
+    XCRA_LIBDIR = $(LIBDIR)/xcra
+       LIBFILES = 
+        DEPLIBS = TaskLibrary NotesLibrary UtilXLibrary UtilLibrary \
+                  XawClientDepLibs
+LOCAL_LIBRARIES = TaskLibrary NotesLibrary UtilXLibrary UtilLibrary \
+                  XawClientLibs $(OTHER_LIBRARIES) -lm
+
+           SRCS = xcra.C XawTask.C NoteManager.C
+        HEADERS = XawTask.H NoteManager.H
+           OBJS = xcra.o XawTask.o ProfileObjs
+
+      NOTE_OBJS = NoteManager.o
+      NOTE_LIBS = NotesLibrary UtilLibrary $(OTHER_LIBRARIES)
+
+       PROGRAMS = xcra noteManager PerlTools
+
+all:: $(PROGRAMS)
+
+ComplexCplusplusProgramTarget(xcra)
+
+NormalCplusplusProgramTarget(noteManager,$(NOTE_OBJS),NullParameter,$(NOTE_LIBS),NullParameter)
+
+InstallAppDefaults(XCra)
+MakeDirectories(install,$(XCRA_LIBDIR))
+InstallNamedProg(noteManager,noteManager,$(BINDIR))
+
+#ifdef HAVE_PERL
+InstallNamedProg(cra-report,cra-report,$(BINDIR))
+InstallManPage(cra-report,$(MANDIR))
+#endif
+
+InstallMultipleFlags(xcra.hlp,$(XCRA_LIBDIR),$(INSTDATFLAGS))
+InstallManPage(xcra,$(MANDIR))
+InstallManPage(noteManager,$(MANDIR))
+
+NormalCplusplusObjectRule()
+
+#define ConfigureSource(dst,src)					@@\
+all::	dst								@@\
+									@@\
+dst:: src ../config.h tconfigure					@@\
+	$(RM) $@							@@\
+	sh tconfigure "$(PERL)" src dst					@@\
+									@@\
+clean::									@@\
+	$(RM) dst
+
+XCOMM
+XCOMM Configuration of the man pages, the scripts and X11 resource file.
+XCOMM
+#ifdef HAVE_PERL
+ConfigureSource(cra-report,cra-report.cpp)
+ConfigureSource(cra-report.man,cra-report.man.cpp)
+#endif
+
+ConfigureSource(xcra.man,xcra.man.cpp)
+ConfigureSource(xcra.help,xcra.help.cpp)
+
+clean::
+	$(RM) XCra.ad
+
+XCra.ad: XCra.ad.sed
+	sed -e 's;%%XCRA_LIBDIR%%;$(XCRA_LIBDIR);' < $? > $@
+
+#ifdef HAVE_PERL
+xcra.hlp:	xcra.help
+	$(PERL) help.perl < $? > $@
+
+clean::
+	$(RM) xcra.hlp
+#else
+xcra.hlp:
+	-@test -f xcra.hlp || echo "Sorry: you must create the file xcra.hlp manually."
+	test -f xcra.hlp 
+#endif
+
+DependTarget()
+
+XCOMM
+XCOMM Test Xcra without installing it.
+XCOMM
+install-test:	xcra.hlp
+	sed -e 's;%%XCRA_LIBDIR%%;'`pwd`';' < XCra.ad.sed > XCra
+	cp ../icons/larrow.xbm ../icons/rarrow.xbm ../icons/xnote.xbm \
+	   ../icons/xcra.xbm .
+
+clean::
+	$(RM) XCra larrow.xbm rarrow.xbm xnote.xbm xcra.xbm
+
+#ifdef HAVE_PROFILE
+gmon.o:	gmon.c
+	$(CC) -c -O gmon.c
+#endif

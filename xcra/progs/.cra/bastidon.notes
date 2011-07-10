@@ -1,0 +1,21 @@
+G563 226 578 211 0 0 Toiture
+
+G553 404 502 250 81 0 Commandes
+Type			Quantite
+-----------		---------
+Ciment	CPJ 32,5	200Kg
+Crepi	Tradifarge	30
+G197 423 574 249 97 0 A finir
+
+ - Champs des portes,
+ - Enduits interieurs,
+ - Descente tracteur,
+ - Pose des portes,
+ - Crepi
+
+
+G195 163 581 215 111 0 Beton
+
+J'aurai pu mettre la description pour faire du
+beton, mais je sais ca par coeur donc ce n'est
+pas la peine...

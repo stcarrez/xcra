@@ -1,0 +1,136 @@
+# ######################################################################
+#
+# Component :	configure
+# Synopsis  :	Auto Configuration Template for XCra
+# Version   :   $Id: configure.in,v 1.7 2000/02/23 08:21:21 ciceron Exp $
+#
+# Copyright (C) 1995, 1996, 2002, 2003, 2009 Stephane Carrez
+#
+# This file is part of Xcra.
+#
+# Xcra is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Xcra is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+# ######################################################################
+# Process this file with autoconf to produce a configure script.
+
+AC_INIT(progs/xcra.C)
+AC_CONFIG_HEADER(config.h)
+AC_ARG_PROGRAM
+
+PACKAGE=xcra
+VERSION=2.2.4
+
+AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
+AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
+AC_SUBST(PACKAGE)
+AC_SUBST(VERSION)
+
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_INSTALL
+if test -z "$GXX"; then
+   echo "configure: Warning: The C++ compiler is not GNU C++."
+   echo "configure: Warning: There are many chances that this will not work."
+fi
+
+# 
+# The `configure' script is really used only to check the availability
+# of the two commands: people and LDBupdate. These are Chorus tools.
+#
+AC_PATH_PROG(PEOPLE,people)
+if test -n "$PEOPLE"; then
+   AC_DEFINE(HAVE_PEOPLE)
+   AC_DEFINE(HAVE_LDBUPDATE)
+fi
+
+AC_PATH_PROG(LDBUPDATE,LDBupdate)
+if test -n "$LDBUPDATE"; then
+   AC_DEFINE(HAVE_LDBUPDATE)
+fi
+
+AC_PATH_PROG(ENSCRIPT,enscript)
+if test -n "$ENSCRIPT"; then
+   AC_DEFINE(HAVE_ENSCRIPT)
+fi
+
+AC_PATH_PROG(PERL,perl)
+if test -n "$PERL"; then
+   AC_DEFINE(HAVE_PERL)
+   AC_SUBST(PERL)
+else
+   echo "configure: Warning: perl was not found, you will have to configure"
+   echo "configure: Warning: some files manually."
+fi
+
+AC_CHECK_HEADERS(fcntl.h limits.h memory.h string.h stdlib.h \
+sys/time.h sys/wait.h unistd.h getopt.h regex.h sys/utsname.h re_comp.h)
+
+AC_HEADER_DIRENT
+AC_HEADER_STAT
+AC_HEADER_STDC
+AC_HEADER_TIME
+AC_TYPE_SIZE_T
+AC_TYPE_UID_T
+AC_STRUCT_TM
+
+dnl Check for libraries
+dnl Regular expressions (regcmp) are in -lgen on Solaris 2,
+dnl and in -lintl on SCO Unix.
+AC_CHECK_LIB(gen,regcmp,[LIBS="$LIBS -lgen"])
+AC_CHECK_LIB(nsl, gethostname, [LIBS="$LIBS -lnsl"])
+AC_CHECK_LIB(intl,regcmp,[LIBS="$LIBS -lintl"])
+AC_CHECK_LIB(PW,regcmp,[LIBS="$LIBS -lPW"])
+AC_CHECK_LIB(iberty,getopt_long,[LIBS="$LIBS -liberty"])
+
+EXTRA_LIBS="$LIBS"
+AC_CHECK_FUNCS(getcwd lockf strchr memcpy strdup memmove \
+putenv setenv sigsetmask re_exec strerror gethostname getopt_long)
+
+AC_MSG_CHECKING(for sys_errlist)
+AC_TRY_LINK(, [extern char *sys_errlist[]; static char **x; x = sys_errlist;], 
+  [AC_MSG_RESULT(yes); AC_DEFINE(HAVE_SYS_ERRLIST)], [AC_MSG_RESULT(no)])
+
+AC_MSG_CHECKING(for errno)
+AC_TRY_LINK(, [extern int errno; static int x; x = errno;], 
+  [AC_MSG_RESULT(yes); AC_DEFINE(HAVE_ERRNO)], [AC_MSG_RESULT(no)])
+
+AC_FUNC_ALLOCA
+AC_FUNC_VPRINTF
+AC_FUNC_MMAP
+
+dnl Should support replacement for mkdir and rename...
+dnl AC_REPLACE_FUNCS(mkdir rename)
+
+dnl To correctly generate the dependencies, it is necessary to
+dnl pass an additional -I directive to makedepend, specially because
+dnl <stdarg.h> is only defined in the gcc installation directory. We use
+dnl the gcc -M option to find where gcc gets that include.
+if test -n "$GXX"; then
+  AC_MSG_CHECKING(for stdarg.h location)
+  cat > conftest.C <<EOF
+#include <stdarg.h>
+EOF
+  STDARG_PATH=`$CXX -M conftest.C | grep "gcc-lib.*stdarg" | sed -e 's, ,,g' -e 's,/stdarg.h,,' -e 's,\\\\[ 	]*$,,'`
+  AC_MSG_RESULT(ok)
+  rm -f conftest.C
+else
+  STDARG_PATH=""
+fi
+
+AC_SUBST(STDARG_PATH)
+AC_SUBST(EXTRA_LIBS)
+AC_OUTPUT([config.mk],
+[test -z "$CONFIG_HEADERS" || echo timestamp > stamp-h])
+

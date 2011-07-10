@@ -1,0 +1,236 @@
+.\" @(#)noteManager.1	6/04/95
+.\"" $Id: noteManager.man,v 1.6 1996/08/04 15:37:53 gdraw Exp $
+.\"" Copyright (C) 1995, 1996 Stephane Carrez
+.\""
+.\"" This file is part of Xcra.
+.\""
+.\"" Xcra is free software; you can redistribute it and/or modify
+.\"" it under the terms of the GNU General Public License as published by
+.\"" the Free Software Foundation; either version 2 of the License, or
+.\"" (at your option) any later version.
+.\""
+.\"" Xcra is distributed in the hope that it will be useful,
+.\"" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"" GNU General Public License for more details.
+.\""
+.\"" You should have received a copy of the GNU General Public License
+.\"" along with this program; if not, write to the Free Software
+.\"" Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+.\""
+.TH noteManager 1 "Dec 10, 1995"
+.SH NAME
+noteManager \- Note Manager
+.SH SYNOPSIS
+.B noteManager
+[
+.B -lhsGR
+] [
+.B \-d
+.I title
+] [
+.B \-f
+.I file
+] [
+.B \-t
+.I title
+] [
+.B \-c
+.I title
+] [
+.B \-r
+.I title
+] [
+.B \-a
+.I title
+] [
+.B \-g
+.I regex
+] [
+.B \--create
+.I title
+] [
+.B \--append
+.I title
+] [
+.B \--replace
+.I title
+] [
+.B \--delete
+.I title
+] [
+.B \--list
+] [
+.B \--show
+] [
+.B \--grep
+.I regex
+] [
+.B \--recursive
+] [
+.B \--file
+.I file
+] [
+.B \--title
+.I title
+] [
+.B \--external
+.I title
+] [
+.B \--subnotes
+.I title
+] [
+.B \-geometry
+] [
+.I args
+]
+.SH DESCRIPTION
+.\""
+.PP
+.I noteManager
+is a small general purpose note manager tool. Notes represent free text
+which is associated to a title and saved in a notes file. The notes file
+is intended to be used to save some free text information strongly
+correlated to the current task maintainted by
+.IR xcra (1).
+For each task, it is possible to associate a notes file. In that case,
+each time the current task is changed, the current
+notes file is also changed. When a task is not associated to a notes file,
+a default notes file is used.
+There exists three types of note in a notes file:
+.\""
+.IP "\fBGeneral\fP"
+The content of the note is stored in the notes file. It can be edited by
+.IR Xcra (1)
+or by
+.IR noteManager .
+The purpose of such notes is for example to remember some complex commands,
+some temporary information, some actions to perform on the current task,
+some actions made on the current task, ...
+.\""
+.IP "\fBExternal\fP"
+The content of the note is stored in an external file. The file can't
+be edited by
+.IR Xcra (1)
+nor by
+.I noteManager
+(this is a current limitation which may be removed later) but
+can be viewed in read-only mode.
+.\""
+.IP "\fBSub notes\fP"
+The sub notes represents an entry point for another notes file. This
+allows the construction of graphs of notes. The construction of graphs
+of notes is useful with the search option (\fI--grep\fP)
+because it allows a deep scanning of all the possible notes files.
+.\""
+.SS OPTIONS
+.\""
+.I noteManager
+supports the following options:
+.TP "\w'--recursive  'u"
+-c \fItitle\fP
+.TP
+--create \fItitle\fP
+Create a new note entry point whose title will be
+.I title
+and fill it with a text. If arguments are
+specified, the note is filled with them. If no argument is specified,
+the standard input is read.
+.\""
+.TP
+-a \fItitle\fP
+.TP
+--append \fItitle\fP
+Append a text to the existing note whose title is
+.IR title .
+.\""
+.TP
+-r \fItitle\fP
+.TP
+--replace \fItitle\fP
+Replace the content of the note whose title is
+.I title
+by a new text.
+.\""
+.TP
+-S \fItitle\fP
+.TP
+--subnotes \fItitle\fP
+Creates a subnote entry point whose title is
+.IR title .
+The path of the subnotes must be specified as last argument.
+.\""
+.TP
+-x \fItitle\fP
+.TP
+--external \fItitle\fP
+Creates an external entry point whose title is
+.IR title .
+The path of the external file must be specified as last argument.
+.\""
+.TP
+-d \fItitle\fP
+.TP
+--delete \fItitle\fP
+Deletes the note entry point whose title is
+.IR title .
+.\""
+.TP
+-l
+.TP
+--list
+List all the note entry points.
+.\""
+.TP
+-s
+.TP
+--show
+Show the content of each note.
+.\""
+.TP
+-g \fIregex\fP
+.TP
+--grep \fIregex\fP
+Grep the regular expression \fIregex\fP on each note.
+.\""
+.TP
+-R
+.TP
+--recursive
+Recursively lists/shows/greps all the notes.
+.\""
+.\""
+.SH EXAMPLE
+.\""
+.\""
+When
+.I noteManager
+is combined with a X cut buffer tool such as
+.IR xcb (1),
+it provides a kind of persistency for the X11 cut buffers. Furthermore,
+the definition of some binding keys in the window manager, allows to
+quickly save the current selection or paste a complete note content.
+.\""
+.nf
+.sp 1
+xcb -p 0 | noteManager -r ScratchText1
+.fi
+.sp 1
+.P
+This command saves the cut buffer 0 (current selection) in the note
+.IR ScratchText1 .
+.\""
+.nf
+.sp 1
+noteManager -s -t ScratchText1 | xcb -s 
+.\""
+.SH AUTHOR
+.nf
+St\('ephane Carrez
+ciceron@chorus.fr
+.\""
+.\""
+.\""
+.SH "SEE ALSO"
+.IR xcra (1),
+.IR xcb (1)

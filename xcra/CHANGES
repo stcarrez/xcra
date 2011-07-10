@@ -1,0 +1,132 @@
+Version 2.2.4:		Feb. 2009
+--------------
+
+  o Fix compilation problems gcc 4.2 for GNU/Linux 2.6 (Ubuntu 8.0.4)
+
+Version 2.2.3:		Jul. 2003
+--------------
+
+  o Fix compilation problems gcc 3.3 for GNU/Linux 2.4 (Mandrake 9.1)
+
+Version 2.2.2:		Jul. 2002
+--------------
+
+  o Fix compilation problems for GNU/Linux 2.4 (Mandrake 8.2)
+  o Don't use tmpnam()
+
+Version 2.2.1:		Dec. 1999
+--------------
+
+  o Fix compilation problems for GNU/Linux 2.2 (RedHat 5.1, 6.1)
+
+
+Version 2:2:		Aug. 1996
+-----------
+  o Added a forecast time to each task. The forecast indicates
+    for a given task, the time that the user think s/he will
+    spend on the task. The forecast time is decremented while
+    the task is active.
+
+  o Added a date field in the creation of tasks to be able to
+    add a task in a previous month (or year). A new task is
+    added from the specified month up to the current month.
+
+  o Port on Linux 1.2.13 (i486).
+
+  o For the creation of a new task, import a list of tasks
+    with associated references and display that list in a
+    scrolling window. Selecting a task from the list will
+    put the name and reference of the selected task in the 
+    corresponding text fields.
+
+Version 2.1:		Dec. 1995
+-----------
+  o Configure everything using GNU configure. GNU configure is
+    used for the configuration of the sources. Imake is used
+    for the configuration of the compilation chain (libraries).
+    The documentation is also configured according to the
+    environment (has LDBupdate, people, enscript, mmap, putenv, ...)
+
+  o Added a Print button in the note editor
+
+  o File Selector widget added to simplify the selection
+    of notes file.
+
+  o Improved the placement of dialog boxes.
+
+  o Support for several formats of output for cra-report
+    (Normal, Troff, Oleo, Report, Ldb)
+
+  o GNU Copyright License 2 assigned everywhere.
+
+  o Improved the interface of the dialog management classes.
+
+  o Added online help support.
+
+Version 2.0:		Oct. 1995
+-----------
+
+  o Added support for the management of notes
+
+  o Improved the management of errors to be able
+    to print a diagnostic
+
+  o When updating the time of the tasks, be able to
+    update several days (the dialog box is not
+    closed but cleared).
+
+  o Added some icons
+
+
+Version 1.2:		Apr. 1995
+------------
+
+  o Be able to launch an external command to update
+    an external database. Messages of the external
+    command are redirected to the Error Dialog box.
+
+
+Version 1.1:		Apr. 1995
+------------
+
+  o Improved the signal management
+
+  o Improved the dialog management to limit the number
+    of dialogs (and print a warning)
+
+
+Version 1.0:		Feb. 1995
+------------
+
+  o Management of dialog boxes completely re-written
+
+  o Support to be able to create dozen of dialog boxes.
+
+  o Dialog box to list the time for each task
+
+  o Dialog box to edit the task references
+
+  o Operation to switch the active task and transfer
+    a time from the current task to the new task
+
+  o Update of time now allows to update several tasks
+    at the same time
+
+Version 0.3:		Dec. 1994
+------------
+
+  o Added a time button and dialog boxes to correct
+    some times (add, subtract and transfer)
+
+Version 0.2:		Nov. 1994
+------------
+
+  o Added an X11 interface with one popup menu and one
+    button displaying the current task.
+
+
+Version 0.1:		Sept. 1994
+------------
+
+  o Basic version of management of tasks.
+

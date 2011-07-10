@@ -1,0 +1,65 @@
+
+List of things that could be done:
+
+- Rewrite to use the GTK toolkit.
+
+- View the graph of notes and get a popup menu to:
+
+	-> edit the note,
+	-> create new note,
+	-> delete the note,
+	-> rename it,
+	-> pack/unpack the graphical representation
+	   of the sub-tree (if the sub-tree is visible
+	   show it and vice versa).
+
+  The graph must get all the notes file for all the
+  tasks.
+
+- Be able to edit external files
+
+- Introduce a X11 selection mechanism based on the notes
+  to be able to select a note from the tool `noteManager'.
+  The idea is to be able to define accelerator keys in the
+  window manager which would launch `noteManager' to save
+  the current X11 selection in a note. (This could act
+  as a `save current X11 selection' operation).
+
+- Move the search in the notes out of the xcra process
+
+- Automatic update of all the dialog boxes when something
+  is changed. If a task is created, the new task must appear
+  in all other dialog boxes. If it is deleted, it must be
+  removed. A preliminary support is here with the
+  virtual method XawDialog::update() and the static
+  method XawDialog::updateAll().
+
+- Generate and keep up-to-date, a task notes glue file
+  which points out to all the different notes file of the
+  different tasks. Such glue file can serve for scanning
+  in all the notes.
+
+- Use the query to the external database to check that
+  the task is valid
+
+- Introduce IDL so that foreign tools could be able to
+  query (current task, list of tasks,...) and change
+  the active task (or any other feature that distribution
+  brings...).
+
+- Use GNU NLS to support several languages (french).
+
+- Integrate an alarm manager in the notes/tasks to be
+  able to provide a TODO note bound to a task. The TODO
+  note lists some actions which must be done before a
+  specified date. A warning popup dialog is opened
+  when the date has expired and the action is not performed.
+
+- Defines two specific notes for each task: a TODO note
+  and a DONE note. When an action is completed, the TODO
+  note can transfer the action description in the DONE note.
+  The cra-report tool must be able to scan the TODO/DONE
+  notes to build the week summary report.
+
+- Introduce IDL to let a project manager update the TODO
+  notes of the members of the team.

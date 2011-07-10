@@ -1,0 +1,162 @@
+/* -*- C++ -*-
+//////////////////////////////////////////////////////////////////////
+// Title	: Imakefile Configuration file (template for configure)
+// Author	: S. Carrez
+// Date		: Wed Mar  8 22:19:44 1995
+// Version	: $Id: config.mk.in,v 1.6 2000/02/22 08:25:31 ciceron Exp $
+// Project	: xcra
+// Keywords	: Port, Config
+//
+// Copyright (C) 1995, 1996 Stephane Carrez
+//
+// This file is part of Xcra.
+//
+// Xcra is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// Xcra is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+//
+//////////////////////////////////////////////////////////////////////
+//
+// Compilation defines:		(passed to C++)
+// --------------------
+// DebugOptions			Debugging options (-g, -DDEBUG)
+// ProfileOption		Profiling option (-pg)
+// SpecificOptions		Specific options for a particular platform
+//				(cpp flags only)
+// OptimizeOptions		Optimization options (-O3, ...)
+// DependOptions		Additional cpp flags passed to makedepend
+//
+//
+**/
+#include "config.H"
+
+#define XCraRelease	VERSION
+
+/*
+ * Determine whether this is X11R5 or X11R6.
+ */
+#ifdef ProjectX
+# if ProjectX == 5
+#  define X11Version	-DHAVE_X11R5
+# endif
+# if ProjectX == 6
+#  define X11Version    -DHAVE_X11R6
+# endif
+# if ProjectX >= 600
+#  define X11Version    -DHAVE_X11R6
+# endif
+#endif
+
+/*
+ * Xcra specific organization.
+ */
+#define IncludeSearchPaths	-I.. -I../lib -I../libX -I../xnotes -I../xtask
+#define TaskLibrary		../xtask/libtask.a
+#define NotesLibrary		../xnotes/libnotes.a
+#define UtilXLibrary		../libX/libXutils.a
+#define UtilLibrary		../lib/libutils.a
+
+/*
+ * Xcra specific Imake rules (override X11 rules).
+ */
+#undef CCsuf
+#define CCsuf C
+
+#ifndef Osuf
+# define Osuf o
+#endif
+
+/*
+ * Don't install Xcra libraries.
+ */
+#undef InstallLibrary
+#define InstallLibrary(X,Y)
+
+#undef NormalCplusplusObjectRule
+#define NormalCplusplusObjectRule()					@@\
+.SUFFIXES:	.CCsuf							@@\
+									@@\
+.CCsuf.Osuf:								@@\
+	$(CXX) $(CFLAGS) -c $<
+
+
+/*
+ * Compilation and link configuration.
+ */
+#ifdef HAVE_PROFILE
+#  define ProfileOption		-DHAVE_PROFILE -pg
+#else
+#  define ProfileOption
+#endif
+
+#ifdef DEBUG
+# define DebugOptions		-g -DDEBUG
+#else
+# define DebugOptions
+#endif
+
+/*
+ * Gcc specific options.
+ */
+#if HasGcc
+# define WarnOptions		-Wall
+#else
+# define WarnOptions
+#endif
+
+/*
+ * Specific options on sun3.
+ */
+#ifdef Sun3Architecture
+# define SpecificOptions	-Dsun3
+# ifndef DEBUG
+#  define OptimizeOptions	-O3 -fomit-frame-pointer -fno-implement-inlines
+# else
+#  define OptimizeOptions	-O ProfileOption
+# endif
+#else
+# define OptimizeOptions	-O
+#endif
+
+/*
+ * SCO ODT 3.0 specific options.
+ */
+#ifdef sco
+#  define SpecificOptions        -I/usr/include/CC -D__STDC__=0
+#endif
+
+/*
+ * Path where gcc stores <stdarg.h>.
+ */
+#define GccIncludes		-I@STDARG_PATH@
+
+#ifndef DependOptions
+#  define DependOptions		GccIncludes
+#endif
+
+#ifndef SpecificOptions
+#  define SpecificOptions
+#endif
+
+/*
+ * The C++ compiler path, as found by configure.
+ */
+CXX = @CXX@
+CC  = @CC@
+PERL= @PERL@
+
+/*
+ * Additional libraries needed, as found by configure.
+ */
+OTHER_LIBRARIES = @EXTRA_LIBS@
+

@@ -1,0 +1,67 @@
+XCOMM
+XCOMM Copyright (C) 1994, 1995, 1996 Stephane Carrez
+XCOMM
+XCOMM This file is part of Xcra.
+XCOMM
+XCOMM Xcra is free software; you can redistribute it and/or modify
+XCOMM it under the terms of the GNU General Public License as published by
+XCOMM the Free Software Foundation; either version 2 of the License, or
+XCOMM (at your option) any later version.
+XCOMM
+XCOMM Xcra is distributed in the hope that it will be useful,
+XCOMM but WITHOUT ANY WARRANTY; without even the implied warranty of
+XCOMM MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+XCOMM GNU General Public License for more details.
+XCOMM
+XCOMM You should have received a copy of the GNU General Public License
+XCOMM along with this program; if not, write to the Free Software
+XCOMM Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+XCOMM
+XCOMM $Id: Imakefile,v 1.14 2000/03/18 10:57:06 ciceron Exp $
+#include "../config.mk"
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+#ifdef HAVE_XTOOLS
+#define XclockObjs	xclock/Clock.o
+#define XbiffObjs	xbiff/Mailbox.o
+#define XeyesObjs	xeyes/Eyes.o xeyes/transform.o
+#define XfselObjs	xfsel/DirList.o xfsel/FileSelect.o
+#define ExtraObjs	XclockObjs XeyesObjs XbiffObjs XfselObjs
+
+           SRCS = XawDialog.C XawCalendar.C XawClock.C XawBiff.C XawEyes.C \
+                  XawLauncher.C XawHelp.C XawFileSelect.C
+        HEADERS = XawDialog.H XawCalendar.H XawClock.H XawBiff.H XawEyes.H \
+                  XawLauncher.H XawHelp.H XawFileSelect.H
+           OBJS = XawDialog.o XawCalendar.o XawClock.o XawBiff.o XawEyes.o \
+                  XawLauncher.o XawHelp.o XawFileSelect.o ExtraObjs
+
+        SUBDIRS = xeyes xclock xbiff xfsel
+
+     CCOPTIONS  = -Ixeyes -Ixclock -Ixbiff IncludeSearchPaths \
+                  SpecificOptions X11Version
+#else
+
+           SRCS = XawDialog.C XawCalendar.C \
+                  XawLauncher.C XawHelp.C XawFileSelect.C
+        HEADERS = XawDialog.H XawCalendar.H \
+                  XawLauncher.H XawHelp.H XawFileSelect.H
+           OBJS = XawDialog.o XawCalendar.o \
+                  XawLauncher.o XawHelp.o XawFileSelect.o xfsel/DirList.o \
+		  xfsel/FileSelect.o
+
+        SUBDIRS = xfsel
+
+     CCOPTIONS  = IncludeSearchPaths \
+                  SpecificOptions X11Version
+#endif
+
+    CDEBUGFLAGS = DebugOptions WarnOptions OptimizeOptions
+    DEPENDFLAGS = $(CCOPTIONS) DependOptions
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+NormalLibraryTarget(Xutils, $(OBJS))
+NormalCplusplusObjectRule()
+DependTarget()

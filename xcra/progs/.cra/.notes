@@ -1,0 +1,14 @@
+G117 251 893 321 203 0 toto
+The note editor window is always popped-up at the
+same place where it was visible the last time it
+was opened. The title of the window is configurable.
+
+At top level of the note content, several buttons
+allow to perform some actions:
+
+Dismiss		Close the note editor. The note is saved.
+Save		Save the note without closing the note
+		editor.
+Title		Change the title of the note editor.
+Clear		Clear the entire note content.
+Destroy		Delete the current note

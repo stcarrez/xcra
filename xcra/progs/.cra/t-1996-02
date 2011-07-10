@@ -1,0 +1,30 @@
+# Task v2.1 Format 3.0
+# 7 tasks
+T=Cabanon-Chateau
+R=
+N=./.cra/bastidon.notes
+C= 0 0 0 0 594 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 20894 120 0 0 0 0 0 0 0 0 
+T=Other Work
+R=None
+N=
+C= 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+T=PacMan
+R=
+N=
+C= 0 0 0 187 61 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+T=XCra
+R=Xcra Tool Development
+N=./.cra/xcra.notes
+C= 0 0 0 119 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+T=Graph
+R=
+N=
+C= 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+T=Test
+R=
+N=
+C= 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+T=Comptes
+R=Comptes
+N=
+C= 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 

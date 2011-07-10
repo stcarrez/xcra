@@ -1,0 +1,4 @@
+
+- Xcra sends a mail when it fails to save (disk full).
+  This can be quite annoying if the disk remains full. (mail box
+  can be filled rapidly).

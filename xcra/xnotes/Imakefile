@@ -1,0 +1,33 @@
+XCOMM
+XCOMM Copyright (C) 1995, 1996 Stephane Carrez
+XCOMM
+XCOMM This file is part of Xcra.
+XCOMM
+XCOMM Xcra is free software; you can redistribute it and/or modify
+XCOMM it under the terms of the GNU General Public License as published by
+XCOMM the Free Software Foundation; either version 2 of the License, or
+XCOMM (at your option) any later version.
+XCOMM
+XCOMM Xcra is distributed in the hope that it will be useful,
+XCOMM but WITHOUT ANY WARRANTY; without even the implied warranty of
+XCOMM MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+XCOMM GNU General Public License for more details.
+XCOMM
+XCOMM You should have received a copy of the GNU General Public License
+XCOMM along with this program; if not, write to the Free Software
+XCOMM Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+XCOMM
+XCOMM $Id: Imakefile,v 1.12 1996/08/04 15:36:48 gdraw Exp $
+#include "../config.mk"
+
+           SRCS = Note.C XawNote.C XawNoteList.C XawNoteMgr.C
+        HEADERS = Note.H XawNote.H XawNoteList.H XawNoteMgr.H
+           OBJS = Note.o XawNote.o XawNoteList.o XawNoteMgr.o
+
+     CCOPTIONS  = IncludeSearchPaths SpecificOptions X11Version
+    CDEBUGFLAGS = DebugOptions WarnOptions OptimizeOptions
+    DEPENDFLAGS = $(CCOPTIONS) DependOptions
+
+NormalLibraryTarget(notes,$(OBJS))
+NormalCplusplusObjectRule()
+DependTarget()
